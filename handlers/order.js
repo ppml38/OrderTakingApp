@@ -1,20 +1,23 @@
 const Order = require("../models/order");
 const User = require("../models/user");
 
-const getOrder = async(orderid)=>{
+const getOrder = async (orderid) => {
     return await new Order().readOrder(orderid);
 }
 
 const addOrder = async (requestData) => {
     const userid = requestData.userid;
+    const cost = requestData.cost;
     const menuItemsList = requestData.menuItemsList;
 
-    userid &&
+    if (userid &&
         menuItemsList &&
+        cost &&
         userid.length !== 0 &&
-        menuItemsList.length !== 0 &&
-        await new Order().addNewOrder(userid, menuItemsList) &&
-        await new User().addOrderToUser(userid, menuItemsList);
+        menuItemsList.length !== 0) {
+        const newOrderId = await new Order().addNewOrder(userid, cost, menuItemsList);
+        await new User().addOrderToUser(userid, [newOrderId]);
+    }
 }
 
 const addMenuItem = async (requestData) => {
@@ -57,6 +60,15 @@ const updateStatus = async (requestData) => {
         await new Order().updateStatus(orderId, status);
 }
 
+const updateCost = async (requestData) => {
+    const orderId = requestData.orderid;
+    const cost = requestData.cost;
+
+    orderId &&
+        cost &&
+        await new Order().updateStatus(orderId, cost);
+}
+
 const deleteOrder = async (requestData) => {
     const userid = requestData.userid;
     const orderId = requestData.orderid;
@@ -69,4 +81,4 @@ const deleteOrder = async (requestData) => {
         await new User().removeOrderFromUser(userid, [orderId]);
 }
 
-module.exports={ getOrder, addOrder, addMenuItem, removeMenuItem, updateCount, updateStatus, deleteOrder }
+module.exports = { getOrder, addOrder, addMenuItem, removeMenuItem, updateCount, updateStatus, updateCost, deleteOrder }

@@ -12,6 +12,8 @@ var router = express.Router();
  *         - id
  *         - userid
  *         - status
+ *         - cost
+ *         - orderTimestamp
  *         - menuItemsList
  *       properties:
  *         id:
@@ -23,6 +25,13 @@ var router = express.Router();
  *         status:
  *           type: string
  *           description: Current status of the order
+ *         cost:
+ *           type: number
+ *           description: Total cost of the order, including tax, and other fees
+ *         orderTimestamp:
+ *           type: string
+ *           format: date
+ *           description: Epoch/UTC Timestamp when the order was placed
  *         menuItemsList:
  *           type: object
  *           properties:
@@ -58,6 +67,18 @@ var router = express.Router();
  *         status:
  *           type: string
  *           description: New status of the order
+ *     UpdateOrderCostRequestPostBody:
+ *       type: object
+ *       required:
+ *         - orderid
+ *         - cost
+ *       properties:
+ *         orderid:
+ *           type: string
+ *           description: The GUUID of the order
+ *         cost:
+ *           type: string
+ *           description: Total cost of the order
  *     AddOrderItemRequestPostBody:
  *       type: object
  *       required:
@@ -258,6 +279,34 @@ router.post('/updateCount', function (req, res, next) {
  *
  */
 router.post('/updateStatus', function (req, res, next) {
+    updateStatus(req.body).then(() => {
+        res.send("success");
+    });
+});
+
+/**
+ * @swagger
+ * tags:
+ *   name: Order
+ *   description: The order managing API
+ * /order/updateCost:
+ *   post:
+ *     summary: Update total cost of the order as we change the items in the order
+ *     tags: [Order]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/UpdateOrderCostRequestPostBody'
+ *     responses:
+ *       200:
+ *         description: Success response.
+ *       500:
+ *         description: Some server error
+ *
+ */
+router.post('/updateCost', function (req, res, next) {
     updateStatus(req.body).then(() => {
         res.send("success");
     });

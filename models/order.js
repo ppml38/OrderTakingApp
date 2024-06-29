@@ -7,12 +7,15 @@ class Order extends Table {
         super(config.ORDER_TABLE_NAME);
     }
 
-    async addNewOrder(userid, menuItems = []) {
+    async addNewOrder(userid, cost, menuItems = []) {
         const newOrder = orderDataModel;
         newOrder.id = crypto.randomUUID();
         newOrder.userid = userid;
+        newOrder.cost = cost;
+        newOrder.orderTimestamp = Date.now();
         newOrder.menuItemsList = menuItems;
         await this.create(newOrder);
+        return newOrder.id;
     }
 
     async readOrder(orderId) {
@@ -31,6 +34,10 @@ class Order extends Table {
 
     async updateOrderCount(orderId, menuItemId, count) {
         await this.update({ "id": orderId }, "SET menuItems.#menuItemId=:count", { ":count": count }, { "#menuItemId": menuItemId });
+    }
+
+    async updateOrderCost(orderId, cost) {
+        await this.update({ "id": orderId }, "SET cost=:cost", { ":cost": cost });
     }
 
     async deleteMenuItemFromOrder(orderId, menuItemId) {
