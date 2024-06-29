@@ -1,8 +1,8 @@
-import { Table } from "./ORM/DynamoDB/table";
-import { config } from "./_config";
-import { menuItemDataModel } from "./dataModel/menuItem";
+const { Table } = require("./ORM/DynamoDB/table");
+const { config } = require("./_config");
+const { menuItemDataModel } = require("./dataModel/menuItem");
 
-export class MenuItem extends Table {
+class MenuItem extends Table {
     constructor() {
         super(config.MENU_ITEM_TABLE_NAME);
     }
@@ -43,3 +43,5 @@ export class MenuItem extends Table {
         await this.delete({ "id": menuItemId });
     }
 }
+
+module.exports = MenuItem;

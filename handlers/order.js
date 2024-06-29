@@ -1,5 +1,5 @@
-import { Order } from "../models/order"
-import { User } from "../models/user";
+const Order = require("../models/order");
+const User = require("../models/user");
 
 const getOrder = async(orderid)=>{
     return await new Order().readOrder(orderid);
@@ -69,4 +69,4 @@ const deleteOrder = async (requestData) => {
         await new User().removeOrderFromUser(userid, [orderId]);
 }
 
-export { getOrder, addOrder, addMenuItem, removeMenuItem, updateCount, updateStatus, deleteOrder }
+module.exports={ getOrder, addOrder, addMenuItem, removeMenuItem, updateCount, updateStatus, deleteOrder }

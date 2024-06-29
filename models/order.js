@@ -1,8 +1,8 @@
-import { Table } from "./ORM/DynamoDB/table";
-import { config } from "./_config";
-import { orderDataModel } from "./dataModel/order";
+const { Table } = require("./ORM/DynamoDB/table");
+const { config } = require("./_config");
+const { orderDataModel } = require("./dataModel/order");
 
-export class Order extends Table {
+class Order extends Table {
     constructor() {
         super(config.ORDER_TABLE_NAME);
     }
@@ -41,3 +41,5 @@ export class Order extends Table {
         await this.delete({ "id": orderId });
     }
 }
+
+module.exports = Order

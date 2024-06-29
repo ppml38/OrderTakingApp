@@ -1,4 +1,4 @@
-import { User } from "../models/user";
+const User = require("../models/user");
 
 const getOrderHistory = async (userid) => {
     return await new User().readUser(userid).orderList;
@@ -22,4 +22,4 @@ const updateEmail = async (requestData) => {
         await new User().updateName(userId, newEmail);
 }
 
-export { getOrderHistory, updateName, updateEmail }
+module.exports = { getOrderHistory, updateName, updateEmail };

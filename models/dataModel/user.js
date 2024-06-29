@@ -1,4 +1,4 @@
-export const userDataModel = {
+const userDataModel = {
     "id": null,
     "email": "",
     "salt": "",
@@ -6,3 +6,4 @@ export const userDataModel = {
     "name": "",
     "orderList": []
 };
+module.exports = {userDataModel}

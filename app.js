@@ -10,6 +10,40 @@ var menuRouter = require('./routes/menu');
 var menuItemRouter = require('./routes/menuItem');
 var orderRouter = require('./routes/order');
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerJSDoc = require('swagger-jsdoc');
+const swaggerDefinition = {
+  openapi: '3.0.0',
+  info: {
+    title: 'Order taking app',
+    version: '1.0.0',
+    description:
+      'Backend system of order taking app',
+    license: {
+      name: 'Licensed Under MIT',
+      url: 'https://github.com/ppml38/OrderTakingApp/blob/master/LICENSE',
+    },
+    contact: {
+      "name": "Prakash",
+      "url": "https://liju.me",
+      "email": "prakash@liju.me"
+    },
+  },
+  servers: [
+    {
+      url: 'http://localhost:3000',
+      description: 'Development server',
+    },
+  ],
+};
+
+const options = {
+  swaggerDefinition,
+  apis: ['./routes/*.js'],
+};
+
+const swaggerSpec = swaggerJSDoc(options);
+
 var app = express();
 
 // view engine setup
@@ -27,6 +61,9 @@ app.use('/user', usersRouter);
 app.use('/menu', menuRouter);
 app.use('/menuItem', menuItemRouter);
 app.use('/order', orderRouter);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+//app.get('/api-docs', );
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

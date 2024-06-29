@@ -1,4 +1,4 @@
-import { MenuItem } from "../models/menuItem"
+const MenuItem=require("../models/menuItem");
 
 const getMenuItem = async(menuItemId)=>{
     return await new MenuItem().readMenuItem(menuItemId);
@@ -56,4 +56,4 @@ const updatePrice = async (requestData) => {
         await new MenuItem().updatePrice(menuItemId, newPrice);
 }
 
-export { getMenuItem, addMenuItem, updateName, updateDescription, updateCategory, updatePrice }
+module.exports={ getMenuItem, addMenuItem, updateName, updateDescription, updateCategory, updatePrice }

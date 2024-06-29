@@ -1,4 +1,4 @@
-import { Menu } from "../models/menu"
+const Menu = require("../models/menu");
 
 const getMenu = async(menuid)=>{
     return await new Menu().readMenu(menuid);
@@ -53,4 +53,4 @@ const updateDescription = async (requestData) => {
         await new Menu().updateName(menuId, newDescription)
 }
 
-export { getMenu, addMenu, addMenuItem, removeMenuItem, updateName, updateDescription }
+module.exports={ getMenu, addMenu, addMenuItem, removeMenuItem, updateName, updateDescription }
